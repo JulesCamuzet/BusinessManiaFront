@@ -1,0 +1,24 @@
+.homepage {
+  width: 100%;
+  min-height: 100vh;
+  background-color: lightgreen;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.homepage button {
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.homepage button:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
