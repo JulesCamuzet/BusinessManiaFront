@@ -1,5 +1,5 @@
-import './Registerpage.css'
-import { useRef, useState } from 'react';
+import "./Registerpage.css";
+import { useRef, useState } from "react";
 
 const Registerpage = () => {
   const emailRef = useRef();
@@ -7,7 +7,7 @@ const Registerpage = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleClick = () => {
+  const registerEmailPassword = () => {
     (async () => {
       setLoading(true);
       const email = emailRef.current.value;
@@ -25,17 +25,17 @@ const Registerpage = () => {
       };
 
       fetch(url, options)
-      .then(response => response.text())
-      .then(result => {
-        setLoading(false);
-        result = JSON.parse(result);
-        console.log(result)
-        if (result.error) {
-          setMessage(result.error.message)
-        } else {
-          setMessage(result.success.message)
-        }
-      })
+        .then((response) => response.text())
+        .then((result) => {
+          setLoading(false);
+          result = JSON.parse(result);
+          console.log(result);
+          if (result.error) {
+            setMessage(result.error.message);
+          } else {
+            setMessage(result.success.message);
+          }
+        });
     })();
   };
   return (
@@ -53,13 +53,13 @@ const Registerpage = () => {
                 ref={passwordRef}
                 type="text"
               />
-              <button onClick={handleClick}>register</button>
+              <button onClick={registerEmailPassword}>register</button>
             </>
           );
         }
       })()}
     </div>
   );
-}
+};
 
 export default Registerpage;
