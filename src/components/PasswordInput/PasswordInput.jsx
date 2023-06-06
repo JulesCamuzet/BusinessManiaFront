@@ -3,6 +3,7 @@ import "./PasswordInput.css";
 
 const PasswordInput = forwardRef((props, ref) => {
   const placeholder = props.placeholder;
+  const value = props.value;
 
   const [hidden, setHidden] = useState(true);
 
@@ -55,6 +56,8 @@ const PasswordInput = forwardRef((props, ref) => {
         type={hidden ? "password" : "text"}
         placeholder={placeholder}
         ref={ref}
+        required
+        defaultValue={value}
       />
       <div className="eye" onClick={handleClick}>
         {hidden ? openEye : slashedEye}

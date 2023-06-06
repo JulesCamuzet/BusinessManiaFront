@@ -3,8 +3,9 @@ import { forwardRef } from 'react'
 
 const TextInput = forwardRef((props, ref) => {
   const placeholder = props.placeholder;
+  const value = props.value;
   return (
-    <input type="text" ref={ref} placeholder={placeholder} className="text-input" />
+    <input required defaultValue={value} type="text" ref={ref} placeholder={placeholder} className="text-input" />
   )
 });
 

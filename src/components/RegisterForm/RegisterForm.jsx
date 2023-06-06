@@ -2,7 +2,7 @@ import "./RegisterForm.css";
 import TextInput from "../TextInput/TextInput";
 import PasswordInput from "../PasswordInput/PasswordInput";
 import RoundedButton from "../RoundedButton/RoundedButton";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loader from "../Loader/Loader";
 
 const RegisterForm = () => {
@@ -15,8 +15,17 @@ const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const registerWithCredentials = () => {
+  const [formValues, setFormValues] = useState({
+    username: "",
+    email: "",
+    emailConfirmation: "",
+    password: "",
+    passwordConfirmation: "",
+  });
+
+  const registerWithCredentials = (event) => {
     (async () => {
+      event.preventDefault();
       setLoading(true);
 
       const username = usernameRef.current.value;
@@ -25,11 +34,19 @@ const RegisterForm = () => {
       const password = passwordRef.current.value;
       const passwordConfirmation = passwordConfirmationRef.current.value;
 
+      setFormValues({
+        username: username,
+        email: email,
+        emailConfirmation: emailConfirmation,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+      });
+
       if (email !== emailConfirmation || password !== passwordConfirmation) {
         setMessage("Invalid informations.");
       }
 
-      const url = "http://127.0.0.1:3000/register";
+      const url = "http://127.0.0.1:3000/registerWithCredentials";
       const options = {
         method: "POST",
         headers: {
@@ -49,12 +66,14 @@ const RegisterForm = () => {
         .then((response) => response.text())
         .then((result) => {
           setLoading(false);
+          console.log(result);
           result = JSON.parse(result);
+          console.log(result);
           if (result.error) {
             setMessage(result.error.message);
           } else {
             setMessage(
-              "Votre compte à bien été créé, vous pouvez maintenant vous connecter."
+              "Your account has been created successfuly, you can now login."
             );
           }
         });
@@ -62,11 +81,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <form
-      action=""
-      className="register-form"
-      onSubmit={registerWithCredentials}
-    >
+    <form className="register-form" onSubmit={registerWithCredentials}>
       {(() => {
         if (loading) {
           return <Loader />;
@@ -74,14 +89,28 @@ const RegisterForm = () => {
           return (
             <>
               <span className="message">{message}</span>
-              <TextInput ref={usernameRef} placeholder="Enter username" />
-              <TextInput ref={emailRef} placeholder="Enter e-mail" />
               <TextInput
+                value={formValues.username}
+                ref={usernameRef}
+                placeholder="Enter username"
+              />
+              <TextInput
+                value={formValues.email}
+                ref={emailRef}
+                placeholder="Enter e-mail"
+              />
+              <TextInput
+                value={formValues.emailConfirmation}
                 ref={emailConfirmationRef}
                 placeholder="Confirm e-mail"
               />
-              <PasswordInput ref={passwordRef} placeholder="Enter password" />
               <PasswordInput
+                value={formValues.password}
+                ref={passwordRef}
+                placeholder="Enter password"
+              />
+              <PasswordInput
+                value={formValues.passwordConfirmation}
                 ref={passwordConfirmationRef}
                 placeholder="Confirm password"
               />

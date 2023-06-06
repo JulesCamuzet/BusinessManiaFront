@@ -15,8 +15,9 @@ const LoginForm = () => {
 
   const { userConnected, setUserConnected } = useContext(userConnectedContext);
 
-  const loginWithCredentials = () => {
+  const loginWithCredentials = (event) => {
     (async () => {
+      event.preventDefault();
       setLoading(true);
       const email = emailRef.current.value;
       const password = passwordRef.current.value;

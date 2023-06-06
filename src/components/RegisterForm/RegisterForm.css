@@ -11,4 +11,6 @@
 
 .register-form .message {
   min-height: 10px;
+  text-align: center;
 }
+

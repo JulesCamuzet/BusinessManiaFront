@@ -2,6 +2,7 @@ import "./Homepage.css";
 import { Link, useNavigate } from "react-router-dom";
 import userConnectedContext from "../../contexts/userConnected";
 import { useContext, useEffect } from "react";
+import RoundedButton from "../../components/RoundedButton/RoundedButton";
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -14,10 +15,10 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <Link to={"/login"}>
-        <button>Login</button>
+        <RoundedButton type="" label="Login" />
       </Link>
       <Link to={"/register"}>
-        <button>Register</button>
+        <RoundedButton type="" label="Register" />
       </Link>
     </div>
   );
