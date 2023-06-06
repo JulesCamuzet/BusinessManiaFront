@@ -1,0 +1,14 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  background-color: lightseagreen;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-around;
+  width: 500px;
+  height: 600px;
+}
+
+.register-form .message {
+  min-height: 10px;
+}

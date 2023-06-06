@@ -1,0 +1,18 @@
+
+.round-button {
+  min-width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 0 30px;
+  font-size: 20px;
+  color: white;
+  font-weight: 600;
+  background-color: darkcyan;
+  cursor: pointer;
+}
+
+.round-button:hover {
+  background-color: rgb(0, 122, 122);
+}

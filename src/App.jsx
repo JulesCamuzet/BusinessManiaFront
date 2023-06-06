@@ -1,19 +1,48 @@
-import { Routes, BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
-import Homepage from "./pages/Homepage/Homepage";
-import Loginpage from "./pages/Loginpage/Loginpage";
-import Registerpage from "./pages/Registerpage/Registerpage";
+import { useEffect, useState } from "react";
+import Router from "./Routes";
+import userConnectedContext from "./contexts/userConnected";
+import Loader from "./components/Loader/Loader";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/homepage" element={<Homepage />} />
-        <Route path="/login" element={<Loginpage />} />
-        <Route path="/register" element={<Registerpage />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  const [userConnected, setUserConnected] = useState(null);
+
+  const getSessionState = async () => {
+    const url = "http://localhost:3000/sessionState";
+    const options = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(url, options)
+      .then((response) => response.text())
+      .then((result) => {
+        result = JSON.parse(result);
+        if (result.success.userConnected) {
+          setUserConnected(true);
+        } else {
+          setUserConnected(false);
+        }
+      });
+  };
+
+  useEffect(() => {
+    getSessionState();
+  }, []);
+
+  if (userConnected === null) {
+    return <Loader />;
+  } else {
+    return (
+      <userConnectedContext.Provider
+        value={{ userConnected, setUserConnected }}
+      >
+        <Router />
+      </userConnectedContext.Provider>
+    );
+  }
 }
 
 export default App;

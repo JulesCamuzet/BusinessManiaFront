@@ -1,63 +1,23 @@
-import { useRef, useState } from "react";
+import { useEffect, useContext } from "react";
 import "./Loginpage.css";
+import { useNavigate } from "react-router-dom";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import userConnectedContext from "../../contexts/userConnected";
 
 const Loginpage = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const { userConnected, setUserConnected } = useContext(userConnectedContext);
 
-  const handleClick = () => {
-    (async () => {
-      setLoading(true);
-      const email = emailRef.current.value;
-      const password = passwordRef.current.value;
-      const url = "http://127.0.0.1:3000/login";
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      };
+  const navigate = useNavigate();
 
-      fetch(url, options)
-      .then(response => response.text())
-      .then(result => {
-        setLoading(false);
-        result = JSON.parse(result);
-        console.log(result)
-        if (result.error) {
-          setMessage(result.error.message)
-        } else {
-          setMessage(result.success.message)
-        }
-      })
-    })();
-  };
+  useEffect(() => {
+    if (userConnected) {
+      navigate("/userpage");
+    }
+  }, [userConnected]);
+
   return (
     <div className="login-page">
-      {(() => {
-        if (loading) {
-          return <h1>Loading</h1>;
-        } else {
-          return (
-            <>
-              <span className="message">{message}</span>
-              <input placeholder="Enter e-mail" ref={emailRef} type="text" />
-              <input
-                placeholder="Enter password"
-                ref={passwordRef}
-                type="text"
-              />
-              <button onClick={handleClick}>Login</button>
-            </>
-          );
-        }
-      })()}
+      <LoginForm />
     </div>
   );
 };
