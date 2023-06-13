@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Router from "./Routes";
 import userConnectedContext from "./contexts/userConnected";
 import Loader from "./components/Loader/Loader";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 function App() {
   const [userConnected, setUserConnected] = useState(null);
@@ -25,15 +26,22 @@ function App() {
         } else {
           setUserConnected(false);
         }
+      })
+      .catch((err) => {
+        setUserConnected("error");
       });
   };
 
   useEffect(() => {
-    getSessionState();
-  }, []);
+    if (userConnected === null) {
+      getSessionState();
+    }
+  }, [userConnected]);
 
   if (userConnected === null) {
     return <Loader />;
+  } else if (userConnected === "error") {
+    return <ErrorPage setUserConnected={setUserConnected} />
   } else {
     return (
       <userConnectedContext.Provider

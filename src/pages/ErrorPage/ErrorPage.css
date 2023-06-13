@@ -1,0 +1,14 @@
+.error-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.error-page span {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
